@@ -1,0 +1,30 @@
+<configuration>
+    <appender name="ConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} ---- %msg  %n
+            </pattern>
+        </encoder>
+    </appender>
+    <!--We can use normal FileAppender as well but Rolling file appender helps us to decide the rolling policy.
+    i.e if logfile crosses the maxFileSize , then a new logfile should be created.-->
+    <appender name="FileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>
+            journalApp.log <!-- Write file path if u don't wanna create the log file inside intellij -->
+        </file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>journalApp-%d{yyyy-MM-dd _ HH-mm}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <MaxHistory>10</MaxHistory> <!--If 10 log files are already created,remove the oldest one and create new-->
+        </rollingPolicy>
+        <encoder>
+            <pattern><!-- the pattern in which logs will be written -->
+                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} ---- %msg  %n
+            </pattern>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref = "ConsoleAppender" />
+        <appender-ref ref="FileAppender"/>
+    </root>
+</configuration>
